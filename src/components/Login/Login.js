@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import Card from '../UI/Card/Card';
 import classes from './Login.module.css';
@@ -13,28 +13,28 @@ const Login = (props) => {
   const[CollegeIsValid, setCollegeIsValid] = useState();
   const [formIsValid, setFormIsValid] = useState(false);
 
+  useEffect(()=>{
+    setFormIsValid(
+      enteredEmail.includes('@') && enteredPassword.trim().length > 6 && enteredCollege.trim().length >=4
+    );
+
+  }, [enteredEmail,  enteredPassword, enteredCollege]);
+
   const emailChangeHandler = (event) => {
     setEnteredEmail(event.target.value);
 
-    setFormIsValid(
-      event.target.value.includes('@') && enteredPassword.trim().length > 6 && enteredCollege.trim().length >=4
-    );
+    
   };
 
   const passwordChangeHandler = (event) => {
     setEnteredPassword(event.target.value);
 
-    setFormIsValid(
-      event.target.value.trim().length > 6 && enteredEmail.includes('@') && enteredCollege.trim().length >=4
-    );
+    
   };
 
   const collegeChangeHandler = (event) =>{
     setEnteredCollege(event.target.value);
 
-    setFormIsValid(
-      event.target.value.trim().length >=4 && enteredEmail.includes('@') && enteredPassword.trim().length > 6
-    );
   };
 
   const validateEmailHandler = () => {
@@ -87,7 +87,7 @@ const Login = (props) => {
         </div>
         <div
           className={`${classes.control} ${
-            emailIsValid === false ? classes.invalid : ''
+            CollegeIsValid === false ? classes.invalid : ''
           }`}
         >
           <label htmlFor="college">College Name </label>
